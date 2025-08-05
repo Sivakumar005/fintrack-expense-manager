@@ -3,8 +3,10 @@ const express=require('express');
 const connectDB=require('./config/db');
 const cors=require('cors');
 const path=require('path'); 
-const authroutes=require('./routes/authRoutes');
+const authroutes=require('./routes/authroutes');
 const incomeroutes=require('./routes/incomeRoutes');
+const expenseroutes=require('./routes/expenseRoutes');
+const dashboardroutes=require('./routes/dashboardRoutes');
 connectDB();
 configDotenv()
 
@@ -19,6 +21,8 @@ app.use(express.json());
 
 app.use('/api/auth',authroutes);
 app.use('/api/income',incomeroutes);
+app.use('/api/expense',expenseroutes);
+app.use('/api/dashboard',dashboardroutes);
 
 app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 
