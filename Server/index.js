@@ -1,15 +1,26 @@
 const { configDotenv } = require('dotenv');
 const express=require('express');
 const connectDB=require('./config/db');
+const cors=require('cors');
+const path=require('path'); 
+const authroutes=require('./routes/authRoutes');
+const incomeroutes=require('./routes/incomeRoutes');
 connectDB();
 configDotenv()
 
 const app=express();
+app.use(cors({
+    origin:process.env.CLIENT_URL||"*",
+    methods:["GET","POST","PUT","DELETE"],
+    allowedHeaders:["Content-Type","Authorization"]
+}))
 app.use(express.json());
 
-const authroutes=require('./routes/authroutes');
 
 app.use('/api/auth',authroutes);
+app.use('/api/income',incomeroutes);
+
+app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 
 port=process.env.port||5000;
 app.listen(port, ()=>{

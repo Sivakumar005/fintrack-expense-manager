@@ -9,19 +9,29 @@ const createToken=(userId)=>{
 }
 
 const signup=async(req,res)=>{
-    const {email,password}=req.body;
+    const {fullname,email,password,profileImageUrl}=req.body;
+    if(!fullname||!email||!password){
+        return res.status(400).json({message:"All fields are required"});
+    }
     try{
-        const user=await User.create({email,password});
+        const existingUser=await User.findOne({email});
+        if(existingUser){
+            return res.status(400).json({message:"Email is already in use"});
+        }
+        const user=await User.create({fullname,email,password,profileImageUrl});
         const token=createToken(user._id);
-        res.status(200).json({ token, email: user.email });
+        res.status(200).json({id:user._id, token, user });
         console.log("user created");
     }catch(err){
         res.status(400).json({error:"signup failed",details: err.message});
     }
 }
 
-const login=async(req,res)=>{
+ const login=async(req,res)=>{
     const {email,password}=req.body;
+    if(!email||!password){
+        return res.status(400).json({message:"All fields are required"});
+    }
     try{
         const user=await User.findOne({email});
         if(!user){
@@ -32,11 +42,22 @@ const login=async(req,res)=>{
             return res.status(401).json({error:"invalid email or password"});
         }
         const token=createToken(user._id);
-        res.status(200).json({token,email:user.email});
+        res.status(200).json({id:user._id,token,user});
         console.log("user logged in");
     }catch(err){
-
+        res.status(400).json({error:"login failed",details: err.message});
     }
 }
 
-module.exports={signup,login};
+const getUserInfo=async(req,res)=>{
+    try{
+        const user=await User.findById(req.user._id).select("-password");
+        if(!user){
+            return res.status(400).json({message:"User not found"});
+        }
+        res.status(200).json(user);
+    }catch(err){
+        res.status(500).json({error:"error getting user Info",details: err.message});
+    }
+}
+module.exports={signup,login,getUserInfo};
