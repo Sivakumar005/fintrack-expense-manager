@@ -6,14 +6,14 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apipaths";
 import { useContext } from "react";
-import { userContext } from "../../context/userContext";
+import { UserContext } from "../../context/userContext";
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");   // keep as string
     const [loading, setLoading] = useState(false);
-    const {updateUser}=useContext(userContext);
+    const {updateUser}=useContext(UserContext);
 
     const navigate = useNavigate();
 

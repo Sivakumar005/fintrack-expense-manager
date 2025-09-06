@@ -4,6 +4,7 @@ const User=require('../models/users');
 const { configDotenv } = require('dotenv');
 configDotenv();
 
+
 const createToken=(userId)=>{
     return jwt.sign({id:userId}, process.env.JWT_SECRET,{expiresIn:'1h'});
 }
@@ -27,7 +28,7 @@ const signup=async(req,res)=>{
     }
 }
 
- const login=async(req,res)=>{
+const login=async(req,res)=>{
     const {email,password}=req.body;
     if(!email||!password){
         return res.status(400).json({message:"All fields are required"});
