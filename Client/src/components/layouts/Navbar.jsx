@@ -11,11 +11,7 @@ const Navbar = ({ activeMenu }) => {
   
   return (
     <>
-      {/* Desktop Sidebar - Always visible on large screens */}
-      <div className="hidden lg:block fixed top-[61px] left-0 z-40">
-        <SideMenu activeMenu={activeMenu} />
-      </div>
-
+      
       {/* Navbar */}
       <div className="flex gap-5 bg-white border border-b border-gray-200 relative z-40 px-8">
         <button
