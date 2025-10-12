@@ -18,7 +18,6 @@ app.use(cors({
 }))
 app.use(express.json());
 
-
 app.use('/api/auth',authroutes);
 app.use('/api/income',incomeroutes);
 app.use('/api/expense',expenseroutes);

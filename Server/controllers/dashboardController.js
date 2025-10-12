@@ -38,7 +38,7 @@ exports.getDashboardData = async (req, res) => {
         // 4. Expenses in the last 30 days
         const last30DaysExpenseTransactions = await Expense.find({
             userId,
-            date: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } // FIXED: was incorrectly using 60 days
+            date: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } 
         }).sort({ date: -1 });
 
         const expenseLast30Days = last30DaysExpenseTransactions.reduce(
